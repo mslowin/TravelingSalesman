@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TravelingSalesman.Data;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add mudblazor service
+builder.Services.AddMudServices();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
