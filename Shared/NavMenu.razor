@@ -1,9 +1,9 @@
 ﻿<MudNavMenu Class="mud-width-full" Bordered="true">
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
-    <MudNavGroup Title="Settings" Expanded="true">
-        <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
-        <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
+    <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="/map" Icon="@Icons.Material.Filled.Business">Map</MudNavLink>
+    <MudNavLink Href="/test2" Icon="@Icons.Material.Filled.Bed">Places</MudNavLink>
+    <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="false">
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
     </MudNavGroup>
-    <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
 </MudNavMenu>

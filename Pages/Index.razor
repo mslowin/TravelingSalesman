@@ -2,8 +2,36 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudContainer>
+    <div style="display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40vh">
+        <div id="Logo" style="float:left">
+            <MudImage Src="dist/img/Icon.jpg" Alt="Logo" Elevation="0" Height="150" Width="150" Class="rounded-lg" ObjectFit="ObjectFit.Cover" />
+        </div>
+        <div id="Name" style="padding:20px; float:left">
+            <div>
+                <MudText Typo="Typo.h1">
+                    Traveling Salesman
+                </MudText>
+            </div>
 
-Welcome to your new app.
+            <div id="Text" style="float:right; margin-right:5px">
+                By Sebastian and Michał
+            </div>
+        </div>
+    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <div id="StartButton" style="padding:20px; text-align:center">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Send" Size="Size.Large" FullWidth="false">
+            BEGIN
+        </MudButton>
+    </div>
+
+    <MudPaper Class="py-4 ma-2" style="width:100%; background:crimson; color:white; text-align:center" Outlined="true"> 
+        Welcome to Traveling Salesman!
+    </MudPaper>
+</MudContainer>
+
+
