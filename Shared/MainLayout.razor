@@ -2,18 +2,84 @@
 
 <PageTitle>TravelingSalesman</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<!-- For Mudblazor -->
+<MudThemeProvider Theme="_currentTheme" />
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudLayout>
+    <MudAppBar Elevation="3">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="ToggleSidebar" />
+        <MudSpacer />
+        @if (_isLightMode)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Inherit" OnClick="ToggleTheme" />
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Brightness5" Color="Color.Inherit" OnClick="ToggleTheme" />
+        }
+    </MudAppBar>
 
-        <article class="content px-4">
+    <MudDrawer @bind-Open="_sidebarOpen" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true">
+        <MudDrawerHeader>
+            @if (_sidebarOpen)
+            {
+                <MudAvatar Image="dist/img/Icon2.jpg" Size="Size.Large"  Style="background-color:unset;" Square="true" />
+                <MudText Typo="Typo.h5" Style="margin-top:10px; margin-left:15px">Travel</MudText>
+            }
+            else
+            {
+                <MudAvatar Image="dist/img/Icon.jpg" Size="Size.Medium" Style="background-color:unset; margin-left:-15px" Rounded="true" />
+            }
+        </MudDrawerHeader>
+        <NavMenu />  <!-- Here is the navigation menu -->
+    </MudDrawer>
+
+    <MudMainContent Class="pt-16 px-16">
+        <MudContainer Class="mt-6">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _isLightMode = true;
+    private bool _sidebarOpen = true;
+    private MudTheme _currentTheme = new MudTheme();
+    private void ToggleTheme()
+    {
+        _isLightMode = !_isLightMode;
+        if (!_isLightMode)
+        {
+            _currentTheme = GenerateDarkTheme();
+        }
+        else
+        {
+            _currentTheme = new MudTheme();
+        }
+    }
+
+    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
+
+    private MudTheme GenerateDarkTheme() =>
+        new MudTheme
+        {
+            Palette = new Palette()
+            {
+                Black = "#27272f",
+                Background = "#32333d",
+                BackgroundGrey = "#27272f",
+                Surface = "#373740",
+                TextPrimary = "#ffffffb3",
+                TextSecondary = "rgba(255,255,255, 0.50)",
+                AppbarBackground = "#27272f",
+                AppbarText = "#ffffffb3",
+                DrawerBackground = "#27272f",
+                DrawerText = "#ffffffb3",
+                DrawerIcon = "#ffffffb3",
+                TextDisabled = "#666666",
+                ActionDisabled = "#666666"
+            }
+        };
+}
