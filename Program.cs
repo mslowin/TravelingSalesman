@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using TravelingSalesman.Data;
+using TravelingSalesman.Data.Coordinate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddDbContextFactory<CoordinateContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("MapCoordinatesDB")));
 
 var app = builder.Build();
 
@@ -27,5 +32,11 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CoordinateContext>();
+    db.Database.EnsureCreated();
+}
 
 app.Run();

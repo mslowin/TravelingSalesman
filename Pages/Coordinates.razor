@@ -1,0 +1,73 @@
+@page "/coordinates"
+
+@using TravelingSalesman.Data.Coordinate
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<CoordinateContext> DbFactory
+
+<h1>Coordinates</h1>
+
+<ul>
+
+    @{
+        System.Diagnostics.Debug.Assert(FetchedCoordinates != null, nameof(FetchedCoordinates) + " != null");
+    }
+    @foreach (var coordinate in FetchedCoordinates)
+    {
+        <li>@coordinate.Name: @coordinate.Latitude, @coordinate.Longitude</li>
+    }
+</ul>
+
+
+<label for="name">Name:</label>
+<input id="name" type="text" @bind="_newName" />
+
+<label for="latitude">Latitude:</label>
+<input id="latitude" type="number" step="any" @bind="_newLatitude" />
+
+<label for="longitude">Longitude:</label>
+<input id="longitude" type="number" step="any" @bind="_newLongitude" />
+
+
+<button @onclick="AddCoordinate">Add Coordinate</button>
+
+@code {
+    private List<Coordinate>? FetchedCoordinates { get; set; }
+    private double _newLatitude;
+    private double _newLongitude;
+    private string _newName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+        if (db.Coordinates != null)
+        {
+            try
+            {
+                FetchedCoordinates = await db.Coordinates.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+
+                await Console.Error.WriteLineAsync("An error occurred while fetching coordinates.");
+            }
+        }
+    }
+
+    private async Task AddCoordinate()
+    {
+        var newCoordinate = new Coordinate
+        {
+            Latitude = _newLatitude,
+            Longitude = _newLongitude,
+            Name = _newName
+        };
+
+        await using var db = await DbFactory.CreateDbContextAsync();
+        db.Coordinates?.Add(newCoordinate);
+        await db.SaveChangesAsync();
+
+        if (db.Coordinates != null) FetchedCoordinates = await db.Coordinates.ToListAsync();
+    }
+}
