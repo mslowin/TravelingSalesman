@@ -9,9 +9,6 @@
 
 <ul>
 
-    @{
-        System.Diagnostics.Debug.Assert(FetchedCoordinates != null, nameof(FetchedCoordinates) + " != null");
-    }
     @foreach (var coordinate in FetchedCoordinates)
     {
         <li>@coordinate.Name: @coordinate.Latitude, @coordinate.Longitude</li>
@@ -32,7 +29,7 @@
 <button @onclick="AddCoordinate">Add Coordinate</button>
 
 @code {
-    private List<Coordinate>? FetchedCoordinates { get; set; }
+    private List<Coordinate> FetchedCoordinates { get; set; } = new();
     private double _newLatitude;
     private double _newLongitude;
     private string _newName = "";
