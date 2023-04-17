@@ -1,5 +1,6 @@
 ﻿<MudNavMenu Class="mud-width-full" Bordered="true">
     <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="coordinates" Icon="@Icons.Material.Filled.Business">Coordinates</MudNavLink>
     <MudNavLink Href="/map" Icon="@Icons.Material.Filled.Business">Map</MudNavLink>
     <MudNavLink Href="/test2" Icon="@Icons.Material.Filled.Bed">Places</MudNavLink>
     <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="false">
@@ -7,3 +8,14 @@
         <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
