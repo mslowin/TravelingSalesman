@@ -1,0 +1,32 @@
+﻿@page "/map"
+
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+<h3>Map</h3>
+
+<div id="map" style="width:800px; height:600px"></div>
+
+@code {
+    private IJSObjectReference? module;
+    private string? result;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./leafletMap.js");
+            if (module != null)
+            {
+                result = await module.InvokeAsync<string>("load_map");
+            }
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
