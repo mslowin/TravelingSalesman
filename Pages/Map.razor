@@ -1,12 +1,35 @@
 ﻿@page "/map"
 
 @inject IJSRuntime JSRuntime
+@inject IDbContextFactory<CoordinateContext> DbFactory
+@using TravelingSalesman.Data.Coordinate
+@using Microsoft.EntityFrameworkCore
+@using System.Text.Json
 @implements IAsyncDisposable
 <h3>Map</h3>
 
 <div id="map" style="width:800px; height:600px"></div>
 
 @code {
+    private static CoordinateContext? _coordinateContext;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _coordinateContext = await DbFactory.CreateDbContextAsync();
+    }
+
+    [JSInvokable]
+    public static async Task AddCoordinate(double latitude, double longitude, string name)
+    {
+        _coordinateContext?.Coordinates?.Add(new Coordinate
+        {
+            Latitude = latitude,
+            Longitude = longitude,
+            Name = name
+        });
+        await _coordinateContext?.SaveChangesAsync();
+    }
+
     private IJSObjectReference? module;
     private string? result;
 
@@ -17,7 +40,7 @@
             module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./leafletMap.js");
             if (module != null)
             {
-                result = await module.InvokeAsync<string>("load_map");
+                result = await module.InvokeAsync<string>("load_map", await GetCoordinates());
             }
         }
     }
@@ -28,5 +51,11 @@
         {
             await module.DisposeAsync();
         }
+    }
+
+    private async Task<string> GetCoordinates()
+    {
+        var coordinates = await _coordinateContext?.Coordinates.ToListAsync();
+        return JsonSerializer.Serialize(coordinates);
     }
 }
