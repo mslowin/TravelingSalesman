@@ -40,7 +40,7 @@
             module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./leafletMap.js");
             if (module != null)
             {
-                result = await module.InvokeAsync<string>("load_map", await GetCoordinates());
+                result = await module.InvokeAsync<string>("load_map");
             }
         }
     }

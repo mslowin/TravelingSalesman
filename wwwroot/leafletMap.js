@@ -1,18 +1,10 @@
 ﻿let map;
 
-export function load_map(coordinatesJson) {
+export function load_map() {
     map = L.map('map').setView({ lon: 0, lat: 0 }, 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
     map.on('click', onMapClick);
-
-    var coordinates = JSON.parse(coordinatesJson);
-    for (var i = 0; i < coordinates.length; i++) {
-        var coordinate = coordinates[i];
-        console.log(coordinate)
-        var marker = L.marker([coordinate.Latitude, coordinate.Longitude]).addTo(map);
-        marker.bindPopup(coordinate.Name)
-    }
 
     return "";
 }

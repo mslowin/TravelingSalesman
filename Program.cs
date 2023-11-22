@@ -39,8 +39,8 @@ app.MapFallbackToPage("/_Host");
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<CoordinateContext>();
-    db.Database.EnsureCreated();
+	var db = scope.ServiceProvider.GetRequiredService<CoordinateContext>();
+	////db.Database.EnsureCreated();
 }
 
 app.Run();
